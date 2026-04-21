@@ -9,6 +9,14 @@ All clustering algorithms are implemented from scratch using NumPy. No external 
 
 ---
 
+## What is K-Means?
+
+K-means is an unsupervised clustering algorithm. Given a set of data points with no labels, it groups them into k clusters so that points within each cluster are close to their cluster's center (called the mean). The algorithm works by repeatedly assigning points to their nearest mean and updating the means to reflect the new assignments. The quality of a clustering is measured by within-class variation (WCV) — the average squared distance from each point to its cluster's mean. Lower WCV means tighter, better-defined clusters.
+
+MacQueen's 1967 paper introduced an incremental version where points are processed one at a time and means are updated immediately after each assignment. This differs from the more commonly known batch version (Lloyd's algorithm) where all points are assigned first, then all means are recomputed, and the process repeats until convergence.
+
+---
+
 ## What's Included
 
 **Algorithms**
@@ -116,38 +124,6 @@ python3 test_step2_batch_comparison.py
 ```
 
 These verify algorithm correctness against hand-traced examples.
-
----
-
-## Project Structure
-
-```
-├── algorithms/
-│   ├── __init__.py
-│   ├── incremental_kmeans.py      # MacQueen's incremental algorithm
-│   ├── batch_kmeans.py            # Lloyd's batch algorithm
-│   └── cr_kmeans.py               # C/R coarsening & refinement variant
-│
-├── data/
-│   ├── __init__.py
-│   └── generators.py              # Synthetic dataset generators
-│
-├── experiments/
-│   ├── __init__.py
-│   ├── ab_prediction.py           # A/B prediction (Section 3.2)
-│   ├── mixture_normals.py         # Mixture-of-normals regression (Section 3.3)
-│   ├── order_sensitivity.py       # Order sensitivity analysis (Section 3.1)
-│   └── scrambled_independence.py  # Scrambled independence test (Section 3.4)
-│
-├── main.py                        # Runs all experiments
-├── generate_report_figures.py     # Generates all report figures
-├── app.py                         # Streamlit interactive UI
-├── app_enhanced.py                # Extended UI with additional visualizations
-├── test_step1_incremental.py      # Hand-trace verification
-├── test_step2_batch_comparison.py # Incremental vs batch comparison
-├── requirements.txt
-└── README.md
-```
 
 ---
 
