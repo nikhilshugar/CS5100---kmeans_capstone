@@ -24,11 +24,13 @@ class BatchKMeans:
         self.means = X[:self.k].copy().astype(float)
         self.labels_ = np.full(n, -1, dtype=int)
         for iteration in range(self.max_iter):
+            # assigning all points at once. There is no change in the means
             new_labels = self._assign(X)
             new_means = np.zeros_like(self.means)
             for c in range(self.k):
                 mask = new_labels == c
                 if np.any(mask):
+                    # computing all means from their assigned points.
                     new_means[c] = X[mask].mean(axis=0)
                 else:
                     new_means[c] = self.means[c]
@@ -36,6 +38,7 @@ class BatchKMeans:
             self.means = new_means
             self.labels_ = new_labels
             self.n_iter_ = iteration + 1
+            # if the means barely moved then we stop or we repeat.
             if shift < self.tol:
                 break
         self.fit_time_ = time.time() - start

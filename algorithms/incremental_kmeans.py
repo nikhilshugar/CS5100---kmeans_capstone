@@ -18,17 +18,22 @@ class IncrementalKMeans:
         start = time.time()
         n, d = X.shape
         assert n >= self.k, "Need at least k data points"
+        # assign initial k points as intial means
         self.means = X[:self.k].copy().astype(float)
         self.weights = np.ones(self.k, dtype=int)
         self.labels_ = np.full(n, -1, dtype=int)
+        # loop through each remaining data point
         for i in range(self.k):
             self.labels_[i] = i
         for idx in range(self.k, n):
             point = X[idx]
+            # finding the nearest closest mean using the squared euclidean distance
             nearest = self._nearest_mean(point)
             self.labels_[idx] = nearest
             w = self.weights[nearest]
+            # update the mean right away
             self.means[nearest] = (self.means[nearest] * w + point) / (w + 1)
+            # increasing the weight as the data point is added.
             self.weights[nearest] += 1
         self.fit_time_ = time.time() - start
         return self
